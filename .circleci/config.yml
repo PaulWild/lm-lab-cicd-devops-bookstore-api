@@ -7,6 +7,13 @@ workflows:
   test-build-push-image:
     jobs:
       - python/test:
-          args: '--dev'
+          args: "--dev"
           pkg-manager: pipenv
-          test-tool: unittest 
+          test-tool: unittest
+      - azure-acr/build-and-push-image:
+          login-server-name: devopsweek5.azurecr.io
+          registry-name: devopsweek5
+          repo: devops-bookstore-api
+          tag: "1.$CIRCLE_BUILD_NUM"
+          requires:
+            - "python/test"
